@@ -76,8 +76,24 @@ def format_board(board):
     return rows
 
 def solve(initial_board):
+    """
+    Solve a Sudoku puzzle.
+
+    :param list initial_board: list of lists of either digits in [1, 9] or None
+    indicating known and vacant spaces of a Sudoku puzzle.
+    :return list solution: list of lists of digits in [1, 9] representing the
+    solved puzzle configuration; there are no vacant spaces in a solution.
+    :raise ValueError: if the board is unsolvable as determined by the Sudoku
+    game invariants.
+    """
 
     def _check_elim_row_col(select_pred, counts, iter_rc):
+        """
+        A DRY method for checking a row or column for a forced move. Separates
+        spaces selected from those that have only one possible value remaining.
+        These are accumulated into unique_not_selected and the first is
+        returned.
+        """
 
         for i, counted in enumerate(counts):
             selected_values = set(next(iter(board[sel_i][sel_j]))
@@ -181,6 +197,7 @@ def solve(initial_board):
             col_counts[j][discard_value] -= 1
         board[i][j] = set((value,))
 
+    # Move type flags.
     move_type_elim, \
         move_type_row_elim, \
         move_type_col_elim, \
