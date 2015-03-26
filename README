@@ -1,0 +1,42 @@
+Introduction
+------------
+This repository is a Sudoku solver.
+
+It has one useful method, `sudoku.solve()`, taking a list of lists of `int` or
+`None`, where each list in the outer list is a row of the puzzle, and each
+entry in an inner list is a columnar value of the puzzle row. A value of `None`
+indicates that the space is vacant, and so the solver will attempt to deduce
+its value.
+
+The solver obeys the standard rules of Sudoku. Note that passing an all-vacant
+puzzle will generate a valid board, as the solve will guess enough vacant
+spaces initially to create a fully-solved puzzle state.
+
+Why?
+----
+I was returning to New York on a flight from Reno, NV, recently, and I decided
+to play a few rounds of their in-seat Sudoku app. After being defeated by a
+couple of 'hard' puzzles, I finally succeeded in solving one. In the process, I
+learned the rules of the game and some decent heuristics to guess when all
+forced moves are exhausted.
+
+Rather than continuing to play, I started this repository.
+
+Performance
+-----------
+The finished product is reasonably fast. Profiled with cProfile, its time is
+well distributed between instantiating data structures, verifying boards, and
+finding next moves.
+
+Further improvements might include pooling data structures to avoid allocations
+and optimizing the search for moves to avoid repeated scans of finished board
+areas.
+
+The simple least-possible-moves heuristic for making a guessed move seems to
+work best. I also tried selecting based on having fewer moves in the row,
+column, and block of the available spots, and that did not improve performance.
+
+Author information
+------------------
+(c) 2015 Brandon L. Reiss
+brandon@brandonreiss.com
